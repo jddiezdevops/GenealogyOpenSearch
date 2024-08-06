@@ -9,38 +9,278 @@ bautismos_index_body = {
     },
     'mappings': {
         'properties': {
-            'LIBRO': {'type': 'text'},
-            'FOLIO': {'type': 'text'},
+            'LIBRO': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'FOLIO': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
             'Nacimiento': {'type': 'date', 'format': 'dd/MM/yyyy'},
             'Bautismo': {'type': 'date', 'format': 'dd/MM/yyyy'},
-            'Nombre': {'type': 'text'},
-            'Nombre del padre': {'type': 'text'},
-            'Apellido del padre': {'type': 'text'},
-            'Localidad del padre': {'type': 'text'},
-            'Provincia del padre': {'type': 'text'},
-            'Parroquia del padre': {'type': 'text'},
-            'Nombre de la madre': {'type': 'text'},
-            'Apellido de la madre': {'type': 'text'},
-            'Localidad de la madre': {'type': 'text'},
-            'Provincia de la madre': {'type': 'text'},
-            'Parroquia de la madre': {'type': 'text'},
-            'Nombre del abuelo paterno': {'type': 'text'},
-            'Apellido del abuelo paterno': {'type': 'text'},
-            'Localidad del abuelo paterno': {'type': 'text'},
-            'Provincia del abuelo paterno': {'type': 'text'},
-            'Nombre de la abuela paterna': {'type': 'text'},
-            'Apellido de la abuela paterna': {'type': 'text'},
-            'Localidad de la abuela paterna': {'type': 'text'},
-            'Provincia de la abuela paterna': {'type': 'text'},
-            'Nombre del abuelo materno': {'type': 'text'},
-            'Apellido del abuelo materno': {'type': 'text'},
-            'Localidad del abuelo materno': {'type': 'text'},
-            'Provincia del abuelo materno': {'type': 'text'},
-            'Nombre de la abuela materna': {'type': 'text'},
-            'Apellido de la abuela materna': {'type': 'text'},
-            'Localidad de la abuela materna': {'type': 'text'},
-            'Provincia de la abuela materna': {'type': 'text'},
-            'OBSERVACIONES': {'type': 'text'}
+            'Nombre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre del padre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido del padre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad del padre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia del padre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Parroquia del padre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre de la madre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido de la madre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad de la madre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia de la madre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Parroquia de la madre': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre del abuelo paterno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido del abuelo paterno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad del abuelo paterno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia del abuelo paterno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre de la abuela paterna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido de la abuela paterna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad de la abuela paterna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia de la abuela paterna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre del abuelo materno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido del abuelo materno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad del abuelo materno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia del abuelo materno': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Nombre de la abuela materna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Apellido de la abuela materna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Localidad de la abuela materna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Provincia de la abuela materna': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'OBSERVACIONES': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            }
         }
     }
 }

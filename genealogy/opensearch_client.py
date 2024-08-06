@@ -42,3 +42,12 @@ class OpenSearchClient:
             return response
         except Exception as e:
             raise
+
+    def update_document(self, index_name, doc_id, updated_fields):
+        try:
+            response = self.client.update(index=index_name, id=doc_id, body={"doc": updated_fields})
+            print(f"DEBUG: update_document response: {response}")
+            return response
+        except Exception as e:
+            print(f"DEBUG: update_document error: {str(e)}")
+            raise
