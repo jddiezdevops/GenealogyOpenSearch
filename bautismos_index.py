@@ -1,4 +1,6 @@
-index_body = {
+# bautismos_index.py
+
+bautismos_index_body = {
     'settings': {
         'index': {
             'number_of_shards': 1,
@@ -9,41 +11,35 @@ index_body = {
         'properties': {
             'LIBRO': {'type': 'text'},
             'FOLIO': {'type': 'text'},
-            'Nacimiento': {
-                'type': 'date',
-                'format': 'dd/MM/yyyy'
-            },
-            'Bautismo': {
-                'type': 'date',
-                'format': 'dd/MM/yyyy'
-            },
+            'Nacimiento': {'type': 'date', 'format': 'dd/MM/yyyy'},
+            'Bautismo': {'type': 'date', 'format': 'dd/MM/yyyy'},
             'Nombre': {'type': 'text'},
             'Nombre del padre': {'type': 'text'},
-            'Apellido paterno': {'type': 'text'},
+            'Apellido del padre': {'type': 'text'},
             'Localidad del padre': {'type': 'text'},
             'Provincia del padre': {'type': 'text'},
             'Parroquia del padre': {'type': 'text'},
             'Nombre de la madre': {'type': 'text'},
-            'Apellido materno': {'type': 'text'},
+            'Apellido de la madre': {'type': 'text'},
             'Localidad de la madre': {'type': 'text'},
             'Provincia de la madre': {'type': 'text'},
             'Parroquia de la madre': {'type': 'text'},
-            'Nombre Abuelo Paterno': {'type': 'text'},
-            'Apellido Abuelo Paterno': {'type': 'text'},
-            'Localidad Abuelo Paterno': {'type': 'text'},
-            'Provincia Abuelo Paterno': {'type': 'text'},
-            'Nombre Abuela Paterna': {'type': 'text'},
-            'Apellido Abuela Paterna': {'type': 'text'},
-            'Localidad Abuela Paterna': {'type': 'text'},
-            'Provincia Abuela Paterna': {'type': 'text'},
-            'Nombre Abuelo Materno': {'type': 'text'},
-            'Apellido Abuelo Materno': {'type': 'text'},
-            'Localidad Abuelo Materno': {'type': 'text'},
-            'Provincia Abuelo Materno': {'type': 'text'},
-            'Nombre Abuela Materna': {'type': 'text'},
-            'Apellido Abuela Materna': {'type': 'text'},
-            'Localidad Abuela Materna': {'type': 'text'},
-            'Provincia Abuela Materna': {'type': 'text'},
+            'Nombre del abuelo paterno': {'type': 'text'},
+            'Apellido del abuelo paterno': {'type': 'text'},
+            'Localidad del abuelo paterno': {'type': 'text'},
+            'Provincia del abuelo paterno': {'type': 'text'},
+            'Nombre de la abuela paterna': {'type': 'text'},
+            'Apellido de la abuela paterna': {'type': 'text'},
+            'Localidad de la abuela paterna': {'type': 'text'},
+            'Provincia de la abuela paterna': {'type': 'text'},
+            'Nombre del abuelo materno': {'type': 'text'},
+            'Apellido del abuelo materno': {'type': 'text'},
+            'Localidad del abuelo materno': {'type': 'text'},
+            'Provincia del abuelo materno': {'type': 'text'},
+            'Nombre de la abuela materna': {'type': 'text'},
+            'Apellido de la abuela materna': {'type': 'text'},
+            'Localidad de la abuela materna': {'type': 'text'},
+            'Provincia de la abuela materna': {'type': 'text'},
             'OBSERVACIONES': {'type': 'text'}
         }
     }

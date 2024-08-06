@@ -1,43 +1,44 @@
-from opensearchpy import OpenSearch, ConnectionError
-import bautismos_index
-import matrimonios_index
+from opensearchpy import OpenSearch
 
 class OpenSearchClient:
-    def __init__(self, host, port, user=None, password=None):
-        if user and password:
-            self.client = OpenSearch(
-                hosts=[{'host': host, 'port': port}],
-                http_auth=(user, password),
-                use_ssl=False,
-                verify_certs=False,
-                ssl_show_warn=False
-            )
-        else:
-            self.client = OpenSearch(
-                hosts=[{'host': host, 'port': port}],
-                use_ssl=False,
-                verify_certs=False,
-                ssl_show_warn=False
-            )
+    def __init__(self, host, port, user, password, use_ssl=False):
+        self.host = host
+        self.port = port
+        self.user = user
+        self.password = password
+        self.use_ssl = use_ssl
+
+        self.client = OpenSearch(
+            hosts=[{'host': self.host, 'port': self.port}],
+            http_auth=(self.user, self.password),
+            use_ssl=self.use_ssl,
+            verify_certs=self.use_ssl,
+            ssl_show_warn=self.use_ssl
+        )
 
     def get_indices(self):
-        all_indices = self.client.indices.get_alias("*").keys()
-        # Filtrar índices que no comienzan con un punto
-        user_indices = [index for index in all_indices if not index.startswith('.')]
-        return user_indices
-
-    def create_index(self, index_name, index_type):
-        if index_type == "Bautismos":
-            index_body = bautismos_index.index_body
-        elif index_type == "Matrimonios":
-            index_body = matrimonios_index.index_body
-        response = self.client.indices.create(index=index_name, body=index_body, ignore=400)
-        return response
-
-    def delete_index(self, index_name):
-        self.client.indices.delete(index=index_name)
+        indices = self.client.indices.get_alias("*").keys()
+        # Exclude indices that start with a dot (.)
+        filtered_indices = [index for index in indices if not index.startswith('.')]
+        return filtered_indices
 
     def get_index_content(self, index_name):
-        response = self.client.search(index=index_name, body={"query": {"match_all": {}}}, size=10000)
-        hits = response['hits']['hits']
-        return [hit['_source'] for hit in hits]
+        try:
+            response = self.client.search(index=index_name)
+            return response
+        except Exception as e:
+            raise
+    
+    def create_index(self, index_name, index_body):
+        try:
+            response = self.client.indices.create(index=index_name, body=index_body)
+            return response
+        except Exception as e:
+            raise
+
+    def delete_index(self, index_name):
+        try:
+            response = self.client.indices.delete(index=index_name)
+            return response
+        except Exception as e:
+            raise

@@ -1,4 +1,7 @@
+# index_management.py
 from PyQt6.QtWidgets import QInputDialog, QMessageBox
+from bautismos_index import bautismos_index_body
+from matrimonios_index import matrimonios_index_body
 
 def create_index(app):
     if not app.client:
@@ -12,7 +15,11 @@ def create_index(app):
         if ok and item:
             index_type = item
             try:
-                app.client.create_index(index_name, index_type)
+                if index_type == "Bautismos":
+                    index_body = bautismos_index_body
+                elif index_type == "Matrimonios":
+                    index_body = matrimonios_index_body
+                app.client.create_index(index_name, index_body)
                 QMessageBox.information(app, "Index Creation", f"Index '{index_name}' created successfully")
                 app.status_bar.showMessage(f"Index '{index_name}' created", 5000)
                 app.refresh_indices()
