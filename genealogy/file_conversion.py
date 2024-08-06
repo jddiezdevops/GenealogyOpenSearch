@@ -2,6 +2,16 @@ import pandas as pd
 import json
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
 
+def generate_excel_template(index_name, index_body):
+    # Extract column names from index body
+    columns = list(index_body['mappings']['properties'].keys())
+    # Create a DataFrame with these columns
+    df = pd.DataFrame(columns=columns)
+    # Save DataFrame to Excel file
+    excel_file_name = f"{index_name}_template.xlsx"
+    df.to_excel(excel_file_name, index=False)
+    print(f"Excel template '{excel_file_name}' generated successfully.")
+
 def convertir_a_json(parent):
     try:
         archivo_excel, _ = QFileDialog.getOpenFileName(parent, "Seleccionar archivo Excel", "", "Archivos Excel (*.xlsx)")

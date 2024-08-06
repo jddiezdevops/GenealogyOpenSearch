@@ -24,7 +24,7 @@ class OpenSearchClient:
 
     def get_index_content(self, index_name):
         try:
-            response = self.client.search(index=index_name)
+            response = self.client.search(index=index_name, size=10000)
             return response
         except Exception as e:
             raise

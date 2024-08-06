@@ -1,8 +1,7 @@
-# index_management.py
-from PyQt6.QtWidgets import QInputDialog, QMessageBox
 from PyQt6.QtWidgets import QInputDialog, QMessageBox
 from genealogy.bautismos_index import bautismos_index_body
 from genealogy.matrimonios_index import matrimonios_index_body
+from genealogy.file_conversion import generate_excel_template
 
 def create_index(app):
     if not app.client:
@@ -20,8 +19,12 @@ def create_index(app):
                     index_body = bautismos_index_body
                 elif index_type == "Matrimonios":
                     index_body = matrimonios_index_body
+                else:
+                    raise ValueError("Invalid index type selected")
+
                 app.client.create_index(index_name, index_body)
-                QMessageBox.information(app, "Index Creation", f"Index '{index_name}' created successfully")
+                generate_excel_template(index_name, index_body)  # Generate the Excel template
+                QMessageBox.information(app, "Index Creation", f"Index '{index_name}' created successfully. Excel template generated.")
                 app.status_bar.showMessage(f"Index '{index_name}' created", 5000)
                 app.refresh_indices()
             except Exception as e:
