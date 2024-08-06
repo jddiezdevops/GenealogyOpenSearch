@@ -3,9 +3,9 @@ from PyQt6.QtWidgets import (
     QListWidget, QGroupBox, QStatusBar, QMenuBar
 )
 from PyQt6.QtGui import QIcon, QAction
-from file_conversion import convertir_a_json
-from bulk_load import cargar_datos_bulk
-from index_management import create_index, delete_index
+from genealogy.index_management import create_index, delete_index
+from genealogy.bulk_load import cargar_datos_bulk
+from genealogy.file_conversion import convertir_a_json
 
 def create_menu(app):
     def _create_menu():

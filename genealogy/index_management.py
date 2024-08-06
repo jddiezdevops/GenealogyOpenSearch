@@ -1,7 +1,8 @@
 # index_management.py
 from PyQt6.QtWidgets import QInputDialog, QMessageBox
-from bautismos_index import bautismos_index_body
-from matrimonios_index import matrimonios_index_body
+from PyQt6.QtWidgets import QInputDialog, QMessageBox
+from genealogy.bautismos_index import bautismos_index_body
+from genealogy.matrimonios_index import matrimonios_index_body
 
 def create_index(app):
     if not app.client:

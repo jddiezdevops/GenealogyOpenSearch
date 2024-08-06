@@ -1,5 +1,8 @@
+import json
 import subprocess
-from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QLineEdit
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog
+import pandas as pd
+from genealogy.file_conversion import convertir_a_json
 
 def cargar_datos_bulk(parent):
     try:
@@ -39,4 +42,5 @@ def cargar_datos_bulk(parent):
             QMessageBox.critical(parent, "Error", resultado.stderr)
     except Exception as e:
         QMessageBox.critical(parent, "Error", str(e))
+
 

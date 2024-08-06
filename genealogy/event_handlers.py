@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QListWidgetItem
 from opensearchpy.exceptions import AuthenticationException, ConnectionError
-from opensearch_client import OpenSearchClient
-from dialogs import display_index_content
-from index_management import create_index, delete_index
+from genealogy.opensearch_client import OpenSearchClient
+from genealogy.dialogs import display_index_content
+from genealogy.index_management import create_index, delete_index
 
 def connect_to_opensearch(app):
     app.host = app.host_input.text()
@@ -35,18 +35,27 @@ def refresh_indices(app):
     app.indices_list.clear()
     try:
         indices = app.client.get_indices()
-        app.indices_list.addItems(indices)
+        for index in indices:
+            item = QListWidgetItem(index)
+            app.indices_list.addItem(item)
         app.status_bar.showMessage("Indices refreshed", 5000)
     except Exception as e:
         QMessageBox.critical(app, "Error", str(e))
         app.status_bar.showMessage("Error refreshing indices", 5000)
 
 def show_index_content(app, item):
-    index_name = item.text()
-    try:
-        content = app.client.get_index_content(index_name)
-        display_index_content(app, index_name, content)
-    except Exception as e:
-        print(f"DEBUG: show_index_content error: {str(e)}")
-        QMessageBox.critical(app, "Error", str(e))
+    if not isinstance(item, QListWidgetItem):
+        item = app.indices_list.currentItem()
+
+    if isinstance(item, QListWidgetItem):
+        index_name = item.text()
+        try:
+            content = app.client.get_index_content(index_name)
+            display_index_content(app, index_name, content)
+        except Exception as e:
+            print(f"DEBUG: show_index_content error: {str(e)}")
+            QMessageBox.critical(app, "Error", str(e))
+            app.status_bar.showMessage("Error showing index content", 5000)
+    else:
+        QMessageBox.critical(app, "Error", "Invalid item selected.")
         app.status_bar.showMessage("Error showing index content", 5000)
