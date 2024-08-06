@@ -1,10 +1,11 @@
 import configparser
 from PyQt6.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QHBoxLayout,
-    QLineEdit, QLabel, QPushButton, QMessageBox, QListWidget, QInputDialog, QGroupBox, QStatusBar, QScrollArea, QDialog, QFileDialog
+    QLineEdit, QLabel, QPushButton, QMessageBox, QListWidget, QInputDialog, QGroupBox, QStatusBar, QScrollArea, QDialog, QFileDialog, QApplication
 )
 from PyQt6.QtGui import QIcon, QAction
 from PyQt6.QtCore import Qt
+from opensearchpy.exceptions import AuthenticationException, ConnectionError
 from opensearch_client import OpenSearchClient
 from dialogs import display_index_content
 from index_management import create_index, delete_index
@@ -121,12 +122,10 @@ class GenealogyApp(QMainWindow):
             self.host = self.config['OpenSearch'].get('host', '')
             self.port = self.config['OpenSearch'].get('port', '')
             self.user = self.config['OpenSearch'].get('user', '')
-            self.password = self.config['OpenSearch'].get('password', '')
 
             self.host_input.setText(self.host)
             self.port_input.setText(self.port)
             self.user_input.setText(self.user)
-            self.password_input.setText(self.password)
 
     def save_credentials(self):
         if 'OpenSearch' not in self.config:
@@ -135,7 +134,6 @@ class GenealogyApp(QMainWindow):
         self.config['OpenSearch']['host'] = self.host
         self.config['OpenSearch']['port'] = self.port
         self.config['OpenSearch']['user'] = self.user
-        self.config['OpenSearch']['password'] = self.password
 
         with open('config.ini', 'w') as configfile:
             self.config.write(configfile)
@@ -145,17 +143,25 @@ class GenealogyApp(QMainWindow):
         self.port = self.port_input.text()
         self.user = self.user_input.text()
         self.password = self.password_input.text()
-
+    
         try:
             self.client = OpenSearchClient(self.host, self.port, self.user, self.password)
-            QMessageBox.information(self, "Connection", "Connected to OpenSearch successfully")
-            self.status_bar.showMessage("Connected to OpenSearch", 5000)
-            self.refresh_indices()
-            self.bulk_load_action.setEnabled(True)
-            self.save_credentials()  # Save credentials after successful connection
-        except ConnectionError as e:
-            QMessageBox.critical(self, "Connection Error", str(e))
+            # Verificar la conexión realizando una operación simple
+            if self.client.client.ping():
+                QMessageBox.information(self, "Connection", "Connected to OpenSearch successfully")
+                self.status_bar.showMessage("Connected to OpenSearch", 5000)
+                self.refresh_indices()
+                self.bulk_load_action.setEnabled(True)
+                self.save_credentials()  # Save credentials after successful connection
+            else:
+                raise ConnectionError("Failed to connect to OpenSearch")
+        except (AuthenticationException, ConnectionError):
+            QMessageBox.critical(self, "Connection Error", "Failed to connect to OpenSearch. Please check your connection details (host, port, username, password).")
             self.status_bar.showMessage("Connection Error", 5000)
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"An unexpected error occurred: {str(e)}")
+            self.status_bar.showMessage("Error", 5000)
+
 
     def refresh_indices(self):
         if not self.client:
@@ -179,3 +185,4 @@ class GenealogyApp(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
             self.status_bar.showMessage("Error showing index content", 5000)
+
