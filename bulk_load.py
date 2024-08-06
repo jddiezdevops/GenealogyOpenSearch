@@ -1,5 +1,5 @@
 import subprocess
-from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from PyQt6.QtWidgets import QFileDialog, QMessageBox, QInputDialog, QLineEdit
 
 def cargar_datos_bulk(parent):
     try:
@@ -39,3 +39,4 @@ def cargar_datos_bulk(parent):
             QMessageBox.critical(parent, "Error", resultado.stderr)
     except Exception as e:
         QMessageBox.critical(parent, "Error", str(e))
+

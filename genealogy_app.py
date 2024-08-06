@@ -1,3 +1,4 @@
+import configparser
 from PyQt6.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QHBoxLayout,
     QLineEdit, QLabel, QPushButton, QMessageBox, QListWidget, QInputDialog, QGroupBox, QStatusBar, QScrollArea, QDialog, QFileDialog
@@ -15,7 +16,7 @@ class GenealogyApp(QMainWindow):
         super().__init__()
         self.setWindowTitle("Genealogy OpenSearch Interface")
         self.setGeometry(100, 100, 800, 600)
-        self.setWindowIcon(QIcon('icon.png'))  # Agrega un ícono a la ventana
+        self.setWindowIcon(QIcon('icon.png'))
         self.client = None
 
         self.host = None
@@ -23,10 +24,14 @@ class GenealogyApp(QMainWindow):
         self.user = None
         self.password = None
 
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
+
         self.create_menu()
         self.create_main_layout()
         self.create_status_bar()
         self.setCentralWidget(self.central_widget)
+        self.load_credentials()
 
     def create_menu(self):
         menubar = self.menuBar()
@@ -42,14 +47,14 @@ class GenealogyApp(QMainWindow):
 
         bulk_load_action = QAction("Load Bulk JSON", self)
         bulk_load_action.triggered.connect(lambda: cargar_datos_bulk(self))
-        bulk_load_action.setEnabled(False)  # Deshabilitar inicialmente
+        bulk_load_action.setEnabled(False)
         file_menu.addAction(bulk_load_action)
 
         exit_action = QAction("Exit", self)
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
 
-        self.bulk_load_action = bulk_load_action  # Guardar referencia para habilitar/deshabilitar más tarde
+        self.bulk_load_action = bulk_load_action
 
     def create_main_layout(self):
         self.central_widget = QWidget()
@@ -111,6 +116,30 @@ class GenealogyApp(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
 
+    def load_credentials(self):
+        if 'OpenSearch' in self.config:
+            self.host = self.config['OpenSearch'].get('host', '')
+            self.port = self.config['OpenSearch'].get('port', '')
+            self.user = self.config['OpenSearch'].get('user', '')
+            self.password = self.config['OpenSearch'].get('password', '')
+
+            self.host_input.setText(self.host)
+            self.port_input.setText(self.port)
+            self.user_input.setText(self.user)
+            self.password_input.setText(self.password)
+
+    def save_credentials(self):
+        if 'OpenSearch' not in self.config:
+            self.config['OpenSearch'] = {}
+
+        self.config['OpenSearch']['host'] = self.host
+        self.config['OpenSearch']['port'] = self.port
+        self.config['OpenSearch']['user'] = self.user
+        self.config['OpenSearch']['password'] = self.password
+
+        with open('config.ini', 'w') as configfile:
+            self.config.write(configfile)
+
     def connect_to_opensearch(self):
         self.host = self.host_input.text()
         self.port = self.port_input.text()
@@ -122,7 +151,8 @@ class GenealogyApp(QMainWindow):
             QMessageBox.information(self, "Connection", "Connected to OpenSearch successfully")
             self.status_bar.showMessage("Connected to OpenSearch", 5000)
             self.refresh_indices()
-            self.bulk_load_action.setEnabled(True)  # Habilitar la opción de carga en bulk después de conectarse
+            self.bulk_load_action.setEnabled(True)
+            self.save_credentials()  # Save credentials after successful connection
         except ConnectionError as e:
             QMessageBox.critical(self, "Connection Error", str(e))
             self.status_bar.showMessage("Connection Error", 5000)
