@@ -11,6 +11,7 @@ def generate_excel_template(index_name, index_body):
     excel_file_name = f"{index_name}_template.xlsx"
     df.to_excel(excel_file_name, index=False)
     print(f"Excel template '{excel_file_name}' generated successfully.")
+    QMessageBox.information(None, "Excel Template", f"Excel template '{excel_file_name}' generated successfully.")
 
 def convertir_a_json(parent):
     try:

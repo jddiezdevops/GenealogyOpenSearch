@@ -9,6 +9,18 @@ bautismos_index_body = {
     },
     'mappings': {
         'properties': {
+            'Lugar de nacimiento': {
+                'type': 'text',
+                'fields': {
+                    'keyword': {
+                        'type': 'keyword',
+                        'ignore_above': 256
+                    }
+                }
+            },
+            'Lugar de nacimiento geo': {
+                'type': 'geo_point'
+            },
             'LIBRO': {
                 'type': 'text',
                 'fields': {
